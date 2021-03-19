@@ -11,7 +11,7 @@ import java.util.Map;
 
 public abstract class Point {
     protected final Container storage;
-    private final long creationTime;
+    private long creationTime;
 
     protected Point(Container storage, long creationTime) {
         this.storage = storage;
@@ -32,7 +32,7 @@ public abstract class Point {
     }
 
     public static class IncrementalPoint extends Point {
-        private final Point beforePoint;
+        private Point beforePoint;
 
         public IncrementalPoint(Container storage, long creationTime, Point beforePoint) {
             super(storage, creationTime);

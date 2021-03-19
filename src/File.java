@@ -3,7 +3,7 @@
  */
 
 public class File {
-    private final String filename;
+    private String filename;
     private Integer size;
 
     public Integer getSize() {

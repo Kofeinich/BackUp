@@ -7,31 +7,31 @@ import java.util.Map;
  * This is my class for backup our data
  */
 public class BackUp {
-    private final Map<String, File> currentFiles;
-    private final List<Point> restorePoints;
-    private long currentTime;
+    private  Map<String, File> curFiles;
+    private List<Point> resPoints;
+    private long curTime;
 
     public BackUp() {
-        currentFiles = new HashMap<>();
-        restorePoints = new ArrayList<>();
-        currentTime = 0;
+        curFiles = new HashMap<>();
+        resPoints = new ArrayList<>();
+        curTime = 0;
     }
 
-    public Map<String, File> getCurrentFiles() {
-        return currentFiles;
+    public List<Point> getResPoints() {
+        return resPoints;
     }
 
-    public List<Point> getRestorePoints() {
-        return restorePoints;
+    public Map<String, File> getCurFiles() {
+        return curFiles;
     }
 
     public Integer getCountOfPoints(){
-        return getRestorePoints().size();
+        return getResPoints().size();
     }
 
     public void show() {
-        for (Point restorePoint : restorePoints) {
-            System.out.println("Restore point, size = " + restorePoint.calculateSize() + ", creation time = " + restorePoint.getCreationTime());
+        for (Point restorePoint : resPoints) {
+            System.out.println("Size = " + restorePoint.calculateSize() + ", creation time = " + restorePoint.getCreationTime());
             Map<String, File> files = restorePoint.getFiles();
             for (File file : files.values()) {
                 System.out.println("Файл: " + file.getFilename() + ", размер: " + file.getSize());
@@ -47,18 +47,18 @@ public class BackUp {
     }
 
     public void addFile(File file) {
-        currentFiles.put(file.getFilename(), file);
+        curFiles.put(file.getFilename(), file);
     }
 
     public void createRestorePoint(CreateStrategy strategy, ContainerBuilder storage) {
-        restorePoints.add(strategy.create(this, storage.build()));
+        resPoints.add(strategy.create(this, storage.build()));
     }
 
     public long getCurrentTime() {
-        return currentTime;
+        return curTime;
     }
 
     public void setCurrentTime(long currentTime) {
-        this.currentTime = currentTime;
+        this.curTime = currentTime;
     }
 }

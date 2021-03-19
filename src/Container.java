@@ -27,7 +27,7 @@ public interface Container {
     }
 
     class WinRaRContainer implements Container {
-        private final WinRaR archive;
+        private WinRaR archive;
 
         public WinRaRContainer() {
             this.archive = new WinRaR();

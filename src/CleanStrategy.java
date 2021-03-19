@@ -7,7 +7,7 @@ public interface CleanStrategy {
     void execute(BackUp backup);
 
     class CountingClean implements CleanStrategy {
-        private final Integer count;
+        private Integer count;
 
         public CountingClean(Integer maxPointsToSave){
             this.count = maxPointsToSave;
@@ -19,9 +19,9 @@ public interface CleanStrategy {
         @Override
         public void execute(BackUp backup) {
            if (backup.getCountOfPoints() >= count){
-               Integer delta = backup.getCountOfPoints() - count;
+               int delta = backup.getCountOfPoints() - count;
                while (delta != 0){
-                   backup.getRestorePoints().remove(backup.getRestorePoints().size() - 1);
+                   backup.getResPoints().remove(backup.getResPoints().size() - 1);
                    delta--;
                }
            }
@@ -39,13 +39,13 @@ public interface CleanStrategy {
          */
         @Override
         public void execute(BackUp backup) {
-            backup.getRestorePoints().removeIf(restorePoint -> restorePoint.calculateSize() >= size);
+            backup.getResPoints().removeIf(restorePoint -> restorePoint.calculateSize() >= size);
         }
     }
 
     class TimingClean implements CleanStrategy {
 
-        private final long time;
+        private long time;
 
         public TimingClean(long timeToDelete) {
             this.time = timeToDelete;
@@ -56,7 +56,7 @@ public interface CleanStrategy {
          */
         @Override
         public void execute(BackUp backup) {
-            backup.getRestorePoints().removeIf(
+            backup.getResPoints().removeIf(
                     restorePoint -> backup.getCurrentTime() - restorePoint.getCreationTime() >= time
             );
         }

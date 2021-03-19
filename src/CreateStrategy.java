@@ -19,7 +19,7 @@ public interface CreateStrategy {
         @Override
         public Point create(BackUp backup, Container storage) {
             Map<String, File> fileMap = new HashMap<>();
-            for (File file : backup.getCurrentFiles().values()){
+            for (File file : backup.getCurFiles().values()){
                 fileMap.put(file.getFilename(), new File(file.getFilename(), file.getSize()));
             }
             storage.setFiles(fileMap);
@@ -36,14 +36,14 @@ public interface CreateStrategy {
         public Point create(BackUp backup, Container storage) {
             Map<String, File> beforeFiles;
             Point beforePoint = null;
-            if (backup.getRestorePoints().isEmpty()) {
+            if (backup.getResPoints().isEmpty()) {
                 beforeFiles = new HashMap<>();
             } else {
-                beforePoint = backup.getRestorePoints().get(backup.getRestorePoints().size() - 1);
+                beforePoint = backup.getResPoints().get(backup.getResPoints().size() - 1);
                 beforeFiles = beforePoint.getFiles();
             }
             Map<String, File> files = new HashMap<>();
-            Map<String, File> currentFiles = backup.getCurrentFiles();
+            Map<String, File> currentFiles = backup.getCurFiles();
             for (File file : currentFiles.values()){
                 if (beforeFiles.keySet().stream().anyMatch(name -> name.equals(file.getFilename()))){
                     files.put(
